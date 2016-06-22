@@ -1,0 +1,17 @@
+digraph "rpmdep" {
+node [width = 0.95, fixedsize = false, style = filled, fillcolor = palegreen];
+bash -> glibc [color=red,penwidth=2.0];
+glibc -> blackPanther_filesystem [color=red,penwidth=2.0];
+blackPanther_filesystem -> setup [color=red,penwidth=2.0];
+setup -> run_parts [color=red,penwidth=2.0];
+setup -> bash [color=red,penwidth=2.0];
+bash -> libncurses6 [color=red,penwidth=2.0];
+libncurses6 -> ncurses [color=red,penwidth=2.0];
+libncurses6 -> libstdc6 [color=red,penwidth=2.0];
+libstdc6 -> libgcc1 [color=red,penwidth=2.0];
+bash -> libreadline6 [color=red,penwidth=2.0];
+libreadline6 -> libncursesw6 [color=red,penwidth=2.0];
+glibc -> dash_static [color=red,penwidth=2.0];
+glibc -> grep [color=red,penwidth=2.0];
+grep -> libpcre1 [color=red,penwidth=2.0];
+}

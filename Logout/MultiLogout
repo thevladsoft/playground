@@ -1,0 +1,64 @@
+#!/usr/bin/python
+
+#*********************************************************************************************************
+#*   __     __               __     ______                __   __                      _______ _______   *
+#*  |  |--.|  |.---.-..----.|  |--.|   __ \.---.-..-----.|  |_|  |--..-----..----.    |       |     __|  *
+#*  |  _  ||  ||  _  ||  __||    < |    __/|  _  ||     ||   _|     ||  -__||   _|    |   -   |__     |  *
+#*  |_____||__||___._||____||__|__||___|   |___._||__|__||____|__|__||_____||__|      |_______|_______|  *
+#* http://www.blackpantheros.eu | http://www.blackpanther.hu - kbarcza[]blackpanther.hu * Charles Barcza *
+#*************************************************************************************(c)2002-20116********
+
+import os
+import sys
+import signal
+import gtk
+import gtk.glade
+
+#from preferences import *
+
+HIBERCMD = "" 
+
+class LogoutGui:
+    def __init__(self):
+        self.wTree=gtk.glade.XML ("./logout.glade")
+        self.win = self.wTree.get_widget("Main_Window")
+        self.win.connect("destroy", lambda w: gtk.main_quit())
+
+        self.wTree.get_widget("halt_button").connect("clicked", lambda w: os.system('halt'))
+        self.wTree.get_widget("reboot_button").connect("clicked", lambda w: os.system('reboot'))
+        self.wTree.get_widget("logout_button").connect("clicked", lambda w: os.system('killall openbox'))
+        self.wTree.get_widget("different_button").connect("clicked", lambda w: os.system('gdmflexiserver'))
+        
+        self.wTree.get_widget("hibern_button").connect("clicked", lambda w: os.system('zenity --info --text "Hibernate not definied"'))
+	self.wTree.get_widget("cancel_button").connect("clicked", lambda w: self.save_and_exit())
+	self.wTree.get_widget("config_button").connect("clicked", lambda w: os.system('zenity --info --text "Config function develompent in prorgress..For developers: Dialog already implemented jet, you see in source"'))
+        
+	
+        self.win.show()
+
+    def preferences(self, *args):
+	#vPreferences = pref_dialog(self.settings)
+	vPreferences = pref_dialog()
+	vPreferences.show()
+	
+    def pop_up(self, *args):
+	dialog = pref_dialog()
+	self.win.set_sensitive(False)
+	dialog.connect("hide", lambda w: self.win.set_sensitive(True))
+	resp = dialog.run()
+	#if resp:
+	#	self.entry_text = add_entry.get_text()
+	#	add_entry.set_text('')
+	#	self.proceed_list(dialog_name[0]+'_'+dialog_name[1]+'_list')
+        #        dialog.hide()
+	#return True
+
+    def save_and_exit(self):
+	gtk.main_quit()
+
+    def main(self):
+	gtk.main()
+
+if __name__ == "__main__":
+	base = LogoutGui()
+	base.main()
